@@ -1,3 +1,4 @@
+import formPage from '../pages/formPage'
 
 describe('template spec', () => {
   Cypress.on('uncaught:exception', (err) => {
@@ -7,15 +8,16 @@ describe('template spec', () => {
     cy.visit('/');
  })
   it('positive', () => {
-    cy.get('#userName').type('name')
-    cy.get('#userEmail').type('fake@email.com')
-    cy.get('#submit').click()
-    cy.get('#output').should('include.text', 'Name:nameEmail:fake@email.com')
+
+    formPage.elements.nameInput().type('name')
+    formPage.elements.emailInput().type('fake@email.com')
+    formPage.clickOnSubmit();
+    formPage.elements.output().should('include.text', 'Name:nameEmail:fake@email.com')
 
   })
   it('negative', () => {
-    cy.get('#userEmail').type('fake')
-    cy.get('#submit').click()
-    cy.get('#userEmail') .should('have.class', 'field-error')
+    formPage.elements.emailInput().type('fake')
+    formPage.clickOnSubmit();
+    formPage.elements.emailInput() .should('have.class', 'field-error')
   })
 })
